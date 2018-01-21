@@ -56,7 +56,7 @@ bool shake_detected() {
 }
 ```
 
-##TBool Example Application
+## TBool Example Application
 
 Temporal logic and TBools can help us as developers more easily write code to respond to what initially appear to be complex states. An example implementation of a TBool is provided under the Apache 2 License on GitHub. The originally application which inspired the creation of the TBool, “[Waggle My Mouse](https://gumroad.com/products/zCMp)” a mouse cursor location tool for Windows, is available to purchase via [GumRoad](https://gumroad.com/products/zCMp). Anyone who would like to provide me with feedback on Waggle My Mouse can get a free copy by contacting me on Twitter [@mcwoods](https://twitter.com/mcwoods).
 

@@ -20,44 +20,45 @@
 #include "tbool.h"
 #include <iostream>
 #include <string>
+#include <thread>
 
-using namespace std;
 
-#define TBool_WAIT(A) while ( (A) ) { }
 
-void print_message(const std::string& message)
-{
+void printMessage(const std::string& message) {
 	std::time_t t = std::chrono::system_clock::to_time_t(  std::chrono::system_clock::now() );
 	char time[100];
 	std::strftime(time, sizeof(time), "%T", std::localtime(&t));
-
-	cout << time << " | " << message << endl;
+	std::cout << time << " | " << message << std::endl;
 }
 
 
-int main(int argc, const char* argv[])
-{
-	print_message( "A jolly temporal hello world to you all" );
-	print_message( "First let's create a TBool, called bit and set it true, then wait for it to expire" );
+int main(int argc, const char* argv[]) {
+	//auto a = DEFAULT_TIME_TRUE_MILLISECONDS;
+	printMessage( "A jolly temporal hello world to you all" );
+	printMessage( "First let's create a TBool, called bit and set it true, then wait for it to expire" );
 	TBool bit;
 	bit = true;
-	while( bit ) {} // should take about 0.5 seconds
-	print_message( "The TBool is now false\n\n");
+	while( bit ) { // should take about 0.5 seconds
+		std::this_thread::sleep_for( std::chrono::milliseconds(100) );
+	} 
+	printMessage( "The TBool is now false\n\n" );
 
 	
 
-	print_message( "Now, let's create a TBool which has a 5 second life.");
-	TBool five_secs(5000);
-	print_message( "When first created all TBools are false, so waiting will be fast, as value is false");	
-	while( five_secs ) {} // super fast pass through
-	print_message( "The TBool is now false");
-	print_message( "That fast fast huh!\n\n");
+	printMessage( "Now, let's create a TBool which has a 5 second life." );
+	TBool five_secs( std::chrono::milliseconds(5000) );
+	printMessage( "When first created all TBools are false, so waiting will be fast, as value is false");	
+	while( true == five_secs ) {} // super fast pass through
+	printMessage( "The TBool is now false" );
+	printMessage( "That fast fast huh!\n\n" );
 
-	print_message( "Now let's set that value to true, and wait...");
+	printMessage( "Now let's set that value to true, and wait..." );
 	five_secs = true;
-	while( five_secs ) {} // should take about 5 seconds
-	print_message( "The TBool is now false");
-	print_message( "That should have taken about 5 seconds");
+	while( five_secs ) { // should take about 5 seconds
+		std::this_thread::sleep_for( std::chrono::milliseconds(100) );
+	} 
+	printMessage( "The TBool is now false" );
+	printMessage( "That should have taken about 5 seconds" );
 
 	return 0;
 }

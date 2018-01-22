@@ -23,10 +23,7 @@
 #include <chrono>
 #include <ctime>
 
-namespace {
-	constexpr std::chrono::milliseconds DEFAULT_TIME_TRUE_MILLISECONDS
-		= std::chrono::milliseconds(500);
-}
+#define DEFAULT_TIME_TRUE_MILLISECONDS std::chrono::milliseconds(500)
 
 class TBool {
 	public:
@@ -35,22 +32,10 @@ class TBool {
 			setFalse();			
 		}
 
-		TBool(std::chrono::milliseconds life) noexcept {
+		explicit TBool(std::chrono::milliseconds life) noexcept {
 			setLife(life);
 			setFalse();
 		}
-
-		TBool(size_t life) noexcept {
-			setLife(std::chrono::milliseconds(life));
-			setFalse();
-		}
-
-		TBool(const TBool& bit) noexcept {
-			time_set = bit.time_set;
-			life = bit.life;			
-		}
-		
-		~TBool() noexcept { }
 	
 		bool operator=(bool right) noexcept {
 			if (right)
@@ -60,15 +45,7 @@ class TBool {
 			return right;
 		}
 		
-		bool operator==(bool right) const noexcept {
-			return ( isTrue() == right ); 
-		}
-		
-		bool operator!() const noexcept	{
-			return !isTrue();
-		}
-
-		operator bool() const noexcept {
+		explicit operator bool() const noexcept {
 			return isTrue();
 		}
 		
@@ -81,7 +58,7 @@ class TBool {
 		}
 
 		bool isTrue() const noexcept {
-			return ( (time_set + life) > std::chrono::steady_clock::now() );
+			return (time_set + life) > std::chrono::steady_clock::now();
 		}
 
 		std::chrono::milliseconds getLife() const noexcept { 
@@ -96,6 +73,18 @@ class TBool {
 		std::chrono::time_point<std::chrono::steady_clock>	time_set;
 		std::chrono::milliseconds 							life;
 };
+
+
+inline bool operator==(bool right, TBool left) {
+	return left.isTrue() == right;
+}
+
+inline bool operator==(TBool right, bool left) {
+	return right.isTrue() == left;
+}
+
+
+#undef DEFAULT_TIME_TRUE_MILLISECONDS
 
 #endif // TBool_H_
 

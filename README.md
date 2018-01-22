@@ -35,19 +35,19 @@ It is possible to have the TBool continue to stay true for a longer period of ti
 Using the TBool to solve the Shake Statement then becomes rather straight forward. Listening to the Window event queue we can get information on the x-axis accelerator from the mouse. Once the threshold is crossed the value is stored in an array of 5 TBools. Each TBool has a “life” of 1 second.
 
 ```c++
-const size_t MAX_SHAKES = 5; 
-TBool thresholdCrossed[MAX_SHAKES];
+const size_t MAXSHAKES = 5; 
+TBool thresholdCrossed[MAXSHAKES];
 size_t index = 0;
 ….
 thresholdCrossed [index] = true;
-index = (index + 1) % MAX_SHAKES;
+index = (index + 1) % MAXSHAKES;
 ```
 It is then possible to easily check if 5 shakes have been detected in the 1 second window. This is done by simply evaluating the contents of the array.
 
 ```c++
 bool shakeDetected() {
   bool shakeFound= true;
-  for (size_t i = 0; (i < MAX_SHAKES && shake_found); i++) {
+  for (size_t i = 0; (i < MAXSHAKES && shakeFound); i++) {
     shakeFound= thresholdCrossed[i]; 
   }
   return shakeFound;

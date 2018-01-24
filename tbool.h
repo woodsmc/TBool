@@ -23,12 +23,12 @@
 #include <chrono>
 #include <ctime>
 
-#define DEFAULT_TIME_TRUE_MILLISECONDS std::chrono::milliseconds(500)
+class TBool {	
+	static constexpr size_t DEFAULT_TIME_TRUE_MILLISECONDS = 500;
 
-class TBool {
 	public:
 		TBool() noexcept {
-			setLife(DEFAULT_TIME_TRUE_MILLISECONDS);
+			setLife(std::chrono::milliseconds(size_t(DEFAULT_TIME_TRUE_MILLISECONDS)));
 			setFalse();			
 		}
 
@@ -83,8 +83,6 @@ inline bool operator==(TBool right, bool left) {
 	return right.isTrue() == left;
 }
 
-
-#undef DEFAULT_TIME_TRUE_MILLISECONDS
 
 #endif // TBool_H_
 
